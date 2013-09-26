@@ -56,7 +56,7 @@ See [this blog post](http://artsy.github.io/blog/2013/06/14/writing-headless-bac
 
 ### benv.globals
 
-Hash of common globals your client-side code depends on beyond the normal DOM API. For instance you may have a global `App` namespace.
+A function returning a hash of common globals your client-side code depends on beyond the normal DOM API. For instance you may have a global `App` namespace.
 
 ### benv.setup(callback)
 
