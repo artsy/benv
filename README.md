@@ -23,7 +23,7 @@ var benv = require('benv');
 
 benv.globals = function() {
  return {
-   $: benv.require('./client/vendor/zepto.js', 'Zepto')
+   $: benv.require('../client/vendor/zepto.js', 'Zepto')
  };
 }
 
@@ -37,7 +37,7 @@ afterEach(function(done) {
 
 describe('app.js', function() {
   it('renders Wat', function() {
-    require('./client/app.js');
+    require('../client/app.js');
     $('body').html().should.include('Wat!?');
   });
 });
