@@ -104,7 +104,7 @@ benv.render('./views/artwork.jade', {
 
 Currently only supports [.jade](https://github.com/visionmedia/jade) templates, but please contribute others :)
 
-## benv.requireWithJadeify(filename, varNames)
+### benv.requireWithJadeify(filename, varNames)
 
 For those using [jadeify](https://github.com/OliverJAsh/node-jadeify2) when requiring client-side code that uses jadeify it will throw an error because `require('template.jade')` isn't valid node code. 
 
