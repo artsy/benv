@@ -92,6 +92,15 @@ var $ = benv.require('./client/vendor/zepto.js', 'Zepto');
 
 Renders the body of a server-side template into the benv DOM. Pass in the template's filename along with any data passed into the template. Benv is backed by jsdom and `benv.render` will remove any script tags so as to not accidentally run external javascript.
 
+e.g.
+
+````javascript
+benv.render('./templates/artwork-page.jade', { 
+  artwork: new Artwork({ title: 'Andy Warhol, Flowers' }) 
+});
+$('body').html().should.include('Andy Warhol, Flowers');
+````
+
 Currently only supports [.jade](https://github.com/visionmedia/jade) templates, but please contribute others :)
 
 ## Contributing
