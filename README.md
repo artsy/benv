@@ -54,7 +54,20 @@ See [this blog post](http://artsy.github.io/blog/2013/06/14/writing-headless-bac
 
 ### benv.globals
 
-Override with a function returning a hash of common globals your client-side code depends on beyond the normal DOM API. For instance you may have a global `App` namespace or use jQuery global `$`.
+Override with a function returning a hash of common globals your client-side code depends on beyond the normal DOM API.
+
+For instance you may have a [Backbone](https://github.com/jashkenas/backbone) app that has a global `App` namespace and uses jQuery.
+
+````javascript
+benv.globals = function() {
+  return {
+    Backbone: require('backbone'),
+    jQuery: require('jquery'),
+    $: require('jquery'),
+    App: {}
+  }
+}
+````
 
 ### benv.setup(callback)
 
