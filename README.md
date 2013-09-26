@@ -70,7 +70,7 @@ Deletes the stubbed browser API, benv.globals, and cleans things up so other tes
 
 For non-commonjs wrapped libraries, benv.require will export the global variable that is generally attached to window. For instance [zepto](https://github.com/madrobby/zepto) doesn't adopt any module pattern but it does create a global `Zepto` variable.
 
-## benv.render(filename, data)
+## benv.render(filename, data, callback)
 
 Renders a server-side template into the benv DOM. Pass in the template's filename along with any data passed into the template. Benv is backed by jsdom and `benv.render` will remove any script tags so as to not accidentally run external javascript.
 

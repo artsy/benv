@@ -1,6 +1,10 @@
 var benv = require('../');
 var should = require('should');
 
+afterEach(function() {
+  benv.teardown();
+});
+
 describe('benv.setup', function() {
   
   it('exposes browser globals', function(done) {
