@@ -83,3 +83,24 @@ module.exports.render = function(filename, data, callback) {
     throw Error('Could not identify template type');
   }
 }
+
+// Rewires jadeify templates to work in node again.
+// 
+// @param {String} filename
+// @param {Array} varNames Strings of template variable names
+
+module.exports.requireWithJadeify = function(filename, varNames) {
+  var fullPath = path.resolve(path.dirname(module.parent.filename), filename);
+  var mod = rewire(fullPath);
+  var dir = path.dirname(mod.__get__('module').filename);
+  varNames.forEach(function(varName) {
+    var tmplFilename = mod.__get__(varName).toString()
+      .match(/require\('(.*).jade'\)/)[1] + '.jade';
+    tmplFilename = path.resolve(dir, tmplFilename);
+    mod.__set__(varName, require('jade').compile(
+      fs.readFileSync(tmplFilename),
+      { filename: tmplFilename }
+    ));
+  });
+  return mod;
+}

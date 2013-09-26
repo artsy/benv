@@ -86,3 +86,11 @@ describe('benv.render', function() {
     });
   });
 });
+
+describe('benv.requireWithJadeify', function() {
+  
+  it('rewires jadeify templates to work in node', function() {
+    var html = benv.requireWithJadeify('./libs/jadeify.js', ['tmpl'])();
+    html.should.include('A foo walks into a bar');
+  });
+});
