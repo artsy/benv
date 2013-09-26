@@ -23,9 +23,10 @@
 	"dependencies": {
 	  "jsdom": "*",
 	  "rewire": "*"
-	}
+	},
   "devDependencies": {
     "mocha": "*",
-    "should": "*"
+    "should": "*",
+    "jade": "*"
   }
 }
