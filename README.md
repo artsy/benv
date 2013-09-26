@@ -4,16 +4,7 @@ Stub a browser environment and test your client-side code in node.js.
 
 ## Example
 
-Declare any common global dependencies
-
-````javascript
-benv.globals = function() {
-  return {
-    App: {},
-    $: benv.require('./client/vendor/zepto.js', 'Zepto')
-  }
-}
-````
+Example using [mocha](http://visionmedia.github.io/mocha/) and [should](https://github.com/visionmedia/should.js/).
 
 Given some client-side code
 
@@ -24,13 +15,20 @@ $(function() {
 });
 ````
 
-Stub a browser environment and test it in node.js. (Example using [mocha](http://visionmedia.github.io/mocha/) and [should](https://github.com/visionmedia/should.js/)).
+Declare global dependencies, setup, and test it in node.js.
 
+**./test/client/app.js**
 ````javascript
+var benv = require('benv');
+
+benv.globals = function() {
+ return {
+   $: benv.require('./client/vendor/zepto.js', 'Zepto')
+ };
+}
+
 beforeEach(function(done) {
-  benv.setup(function() {
-    done();
-  });
+  benv.setup(done);
 });
 
 afterEach(function(done) {
@@ -56,7 +54,7 @@ See [this blog post](http://artsy.github.io/blog/2013/06/14/writing-headless-bac
 
 ### benv.globals
 
-A function returning a hash of common globals your client-side code depends on beyond the normal DOM API. For instance you may have a global `App` namespace.
+A function returning a hash of common globals your client-side code depends on beyond the normal DOM API. For instance you may have a global `App` namespace or use jQuery global `$`.
 
 ### benv.setup(callback)
 
@@ -64,17 +62,23 @@ Exposes a stubbed browser API and benv.globals into the node.js global namespace
 
 ### benv.teardown()
 
-Deletes the stubbed browser API, benv.globals, and cleans things up so other tests can run without being harmed.
+Cleans up the globals exposed by `setup` so other tests can run without being harmed.
 
 ### benv.require(filename, globalVarName)
 
 For non-commonjs wrapped libraries, benv.require will export the global variable that is generally attached to window. For instance [zepto](https://github.com/madrobby/zepto) doesn't adopt any module pattern but it does create a global `Zepto` variable.
 
+e.g.
+
+````javascript
+var $ = benv.require('./client/vendor/zepto.js', 'Zepto');
+````
+
 ## benv.render(filename, data)
 
-Renders a server-side template into the benv DOM. Pass in the template's filename along with any data passed into the template. Benv is backed by jsdom and `benv.render` will remove any script tags so as to not accidentally run external javascript.
+Renders the body of a server-side template into the benv DOM. Pass in the template's filename along with any data passed into the template. Benv is backed by jsdom and `benv.render` will remove any script tags so as to not accidentally run external javascript.
 
-Currently only supports [.jade](https://github.com/visionmedia/jade) templates. But please contribute others :)
+Currently only supports [.jade](https://github.com/visionmedia/jade) templates, but please contribute others :)
 
 ## Contributing
 
