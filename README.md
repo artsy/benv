@@ -90,12 +90,12 @@ var $ = benv.require('./client/vendor/zepto.js', 'Zepto');
 
 ## benv.render(filename, data)
 
-Renders the body of a server-side template into the benv DOM. Pass in the template's filename along with any data passed into the template. Benv is backed by jsdom and `benv.render` will remove any script tags so as to not accidentally run external javascript.
+Renders the html in a body tag of a template. Pass in the template's filename along with any data passed into the template. Benv is backed by jsdom and `benv.render` will remove any script tags so as to not accidentally run external javascript.
 
 e.g.
 
 ````javascript
-benv.render('./templates/artwork-page.jade', { 
+benv.render('./views/artwork.jade', { 
   artwork: new Artwork({ title: 'Andy Warhol, Flowers' }) 
 });
 $('body').html().should.include('Andy Warhol, Flowers');
