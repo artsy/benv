@@ -88,7 +88,7 @@ e.g.
 var $ = benv.require('./client/vendor/zepto.js', 'Zepto');
 ````
 
-### benv.render(filename, data)
+### benv.render(filename, data, callback)
 
 Renders the html in a body tag of a template. Pass in the template's filename along with any data passed into the template. Benv is backed by jsdom and `benv.render` will remove any script tags so as to not accidentally run external javascript.
 
@@ -97,8 +97,9 @@ e.g.
 ````javascript
 benv.render('./views/artwork.jade', { 
   artwork: new Artwork({ title: 'Andy Warhol, Flowers' }) 
+}, function() {
+  $('body').html().should.include('Andy Warhol, Flowers');
 });
-$('body').html().should.include('Andy Warhol, Flowers');
 ````
 
 Currently only supports [.jade](https://github.com/visionmedia/jade) templates, but please contribute others :)

@@ -16,6 +16,7 @@ module.exports.globals = function() { return {} };
 // @param {Function} callback
 
 module.exports.setup = function(callback) {
+  if (typeof window != 'undefined') return callback && callback();
   jsdom.env({
     html: "<html><body></body></html>",
     done: function(errs, w) {
@@ -65,23 +66,20 @@ module.exports.require = function(filename, globalVarName) {
 
 module.exports.render = function(filename, data, callback) {
   if (!window) throw Error('You must run benv.setup first.');
-  if (filename.match('.jade')) {
-    var html = require('jade').compile(
-      fs.readFileSync(filename),
-      { filename: filename }
-    )(data);
-    jsdom.env(html, function(err, w) {
-      var scriptEls = w.document.getElementsByTagName('script');
-      Array.prototype.forEach.call(scriptEls, function(el) {
-        el.parentNode.removeChild(el);
-      });
-      var bodyHtml = w.document.getElementsByTagName('body')[0].innerHTML;
-      document.getElementsByTagName('body')[0].innerHTML = bodyHtml;
-      if (callback) callback();
+  if (!filename.match('.jade')) throw Error('Could not identify template type');
+  var html = require('jade').compile(
+    fs.readFileSync(filename),
+    { filename: filename }
+  )(data);
+  jsdom.env(html, function(err, w) {
+    var scriptEls = w.document.getElementsByTagName('script');
+    Array.prototype.forEach.call(scriptEls, function(el) {
+      el.parentNode.removeChild(el);
     });
-  } else {
-    throw Error('Could not identify template type');
-  }
+    var bodyHtml = w.document.getElementsByTagName('body')[0].innerHTML;
+    document.getElementsByTagName('body')[0].innerHTML = bodyHtml;
+    if (callback) callback();
+  });
 }
 
 // Rewires jadeify templates to work in node again.

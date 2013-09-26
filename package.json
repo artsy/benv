@@ -1,6 +1,6 @@
 {
   "name": "benv",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Stub a browser environment and test your client-side code in node.js.",
   "keywords": [
     "browser",
@@ -9,6 +9,10 @@
     "stub",
     "jsdom"
   ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/artsy/benv.git"
+  },
   "author": {
     "name": "Craig Spaeth",
     "email": "craigspaeth@gmail.com",
