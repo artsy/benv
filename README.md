@@ -62,9 +62,9 @@ For instance you may have a [Backbone](https://github.com/jashkenas/backbone) ap
 benv.globals = function() {
   return {
     _: require('underscore'),
-    Backbone: require('backbone'),
     jQuery: require('jquery'),
     $: require('jquery'),
+    Backbone: require('backbone'),
     App: {}
   }
 }
