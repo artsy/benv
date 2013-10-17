@@ -5,7 +5,8 @@ var fs = require('fs');
 
 var domGlobals = [
   'navigator',
-  'document'
+  'document',
+  'location'
 ];
 
 module.exports.globals = function() { return {} };
