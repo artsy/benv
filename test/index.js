@@ -97,4 +97,9 @@ describe('benv.requireWithJadeify', function() {
     var html = benv.requireWithJadeify('./libs/jadeify.js', ['tmpl'])();
     html.should.include('A foo walks into a bar');
   });
+
+  it('works with double quotes', function() {
+    var html = benv.requireWithJadeify('./libs/jadeify-double-quotes.js', ['tmpl'])();
+    html.should.include('A foo walks into a bar');
+  });
 });

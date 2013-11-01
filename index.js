@@ -93,8 +93,11 @@ module.exports.requireWithJadeify = function(filename, varNames) {
   var mod = rewire(fullPath);
   var dir = path.dirname(mod.__get__('module').filename);
   varNames.forEach(function(varName) {
-    var tmplFilename = mod.__get__(varName).toString()
-      .match(/require\('(.*).jade'\)/)[1] + '.jade';
+    var section = mod.__get__(varName).toString()
+      .match(/require\('(.*).jade'\)/);
+    if(!section) section = mod.__get__(varName).toString()
+      .match(/require\("(.*).jade"\)/);
+    var tmplFilename = section[1] + '.jade'
     tmplFilename = path.resolve(dir, tmplFilename);
     mod.__set__(varName, require('jade').compile(
       fs.readFileSync(tmplFilename),
