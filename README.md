@@ -26,6 +26,7 @@ beforeEach(function(done) {
     benv.expose({
       $: benv.require('../client/vendor/zepto.js', 'Zepto')
     });
+    done();
   });
 });
 
@@ -66,6 +67,7 @@ benv.expose({
   Backbone: require('backbone'),
   App: {}
 })
+```
 
 ### benv.teardown()
 
