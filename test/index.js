@@ -17,9 +17,10 @@ describe('benv.setup', function() {
   
   it('exposes passed globals', function(done) {
     benv.setup(function(){
+      benv.expose({ App: { Models: {} } });
       should.exist(App.Models);
       done();
-    }, { App: { Models: {} } });
+    });
   });
 });
 

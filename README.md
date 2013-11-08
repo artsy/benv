@@ -22,8 +22,10 @@ Declare global dependencies, setup, and test in node.js.
 var benv = require('benv');
 
 beforeEach(function(done) {
-  benv.setup(done, {
-    $: benv.require('../client/vendor/zepto.js', 'Zepto')
+  benv.setup(function() {
+    benv.expose({
+      $: benv.require('../client/vendor/zepto.js', 'Zepto')
+    });
   });
 });
 
@@ -48,14 +50,16 @@ See [this blog post](http://artsy.github.io/blog/2013/06/14/writing-headless-bac
 
 ## API
 
-### benv.setup(callback, globals)
+### benv.setup(callback)
 
-Exposes a stubbed browser API into the node.js global namespace so the current process can act like a browser environment. The second argument lets you pass in a hash of common globals your client-side code depends on beyond the normal DOM API. For instance you may have a [Backbone](https://github.com/jashkenas/backbone) app that has a global `App` namespace and uses jQuery.
+Exposes a stubbed browser API into the node.js global namespace so the current process can act like a browser environment. 
+
+## benv.expose(globals)
+
+Pass in a hash of common global client-side dependencies. For instance you may have a [Backbone](https://github.com/jashkenas/backbone) app that has a global `App` namespace and uses jQuery. This should be run after `benv.setup` b/c a lot of libraries assume the `window` object is already global.
 
 ````javascript
-benv.setup(function() {
-  //... Require and test client-side code
-}, {
+benv.expose({
   _: require('underscore'),
   jQuery: require('jquery'),
   $: require('jquery'),
