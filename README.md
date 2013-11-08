@@ -22,7 +22,9 @@ Declare global dependencies, setup, and test in node.js.
 var benv = require('benv');
 
 beforeEach(function(done) {
-  benv.setup(done, { $: benv.require('../client/vendor/zepto.js', 'Zepto') });
+  benv.setup(done, {
+    $: benv.require('../client/vendor/zepto.js', 'Zepto')
+  });
 });
 
 afterEach(function(done) {
