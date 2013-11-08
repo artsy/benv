@@ -55,7 +55,7 @@ See [this blog post](http://artsy.github.io/blog/2013/06/14/writing-headless-bac
 
 Exposes a stubbed browser API into the node.js global namespace so the current process can act like a browser environment. 
 
-## benv.expose(globals)
+### benv.expose(globals)
 
 Pass in a hash of common global client-side dependencies. For instance you may have a [Backbone](https://github.com/jashkenas/backbone) app that has a global `App` namespace and uses jQuery. This should be run after `benv.setup` b/c a lot of libraries assume the `window` object is already global.
 
