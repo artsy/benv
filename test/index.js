@@ -16,13 +16,10 @@ describe('benv.setup', function() {
   });
   
   it('exposes passed globals', function(done) {
-    benv.globals = function() {
-     return { App: { Models: {} } };
-    };
     benv.setup(function(){
       should.exist(App.Models);
       done();
-    });
+    }, { App: { Models: {} } });
   });
 });
 

@@ -9,14 +9,15 @@ var domGlobals = [
   'location'
 ];
 
-module.exports.globals = function() { return {} };
+var _globals;
 
 // Exposes a stubbed browser API and benv.globals into the node.js global namespace 
 // so the current process can act like a browser environment.
 // 
 // @param {Function} callback
+// @param {Object} globals A hash of global libraries like { $: require('jquery') }
 
-module.exports.setup = function(callback) {
+module.exports.setup = function(callback, globals) {
   if (typeof window != 'undefined') return callback && callback();
   jsdom.env({
     html: "<html><body></body></html>",
@@ -25,7 +26,7 @@ module.exports.setup = function(callback) {
       domGlobals.forEach(function(varName) {
         global[varName] = w[varName];
       });
-      var globals = module.exports.globals();
+      _globals = globals;
       for(var key in globals) {
         global[key] = globals[key];
       }
@@ -42,7 +43,7 @@ module.exports.teardown = function() {
   domGlobals.forEach(function(varName) {
     delete global[varName];
   });
-  for(var key in module.exports.globals) {
+  for(var key in _globals) {
     delete global[key];
   }
 }

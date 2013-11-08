@@ -52,27 +52,20 @@ See [this blog post](http://artsy.github.io/blog/2013/06/14/writing-headless-bac
 
 ## API
 
-### benv.globals
+### benv.setup(callback, globals)
 
-Override with a function returning a hash of common globals your client-side code depends on beyond the normal DOM API.
-
-For instance you may have a [Backbone](https://github.com/jashkenas/backbone) app that has a global `App` namespace and uses jQuery.
+Exposes a stubbed browser API into the node.js global namespace so the current process can act like a browser environment. The second argument lets you pass in a hash of common globals your client-side code depends on beyond the normal DOM API. For instance you may have a [Backbone](https://github.com/jashkenas/backbone) app that has a global `App` namespace and uses jQuery.
 
 ````javascript
-benv.globals = function() {
-  return {
-    _: require('underscore'),
-    jQuery: require('jquery'),
-    $: require('jquery'),
-    Backbone: require('backbone'),
-    App: {}
-  }
-}
-````
-
-### benv.setup(callback)
-
-Exposes a stubbed browser API and benv.globals into the node.js global namespace so the current process can act like a browser environment.
+benv.setup(function() {
+  //... Require and test client-side code
+}, {
+  _: require('underscore'),
+  jQuery: require('jquery'),
+  $: require('jquery'),
+  Backbone: require('backbone'),
+  App: {}
+})
 
 ### benv.teardown()
 
