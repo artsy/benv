@@ -87,6 +87,16 @@ describe('benv.render', function() {
       });
     });
   });
+
+  it('accepts local paths', function(done) {
+    benv.setup(function(){
+      var $ = benv.require('./libs/zepto.js', 'Zepto');
+      benv.render('../test/libs/template.jade', {}, function() {
+        $('body').html().should.not.include('script');
+        done();
+      });
+    });
+  });
 });
 
 describe('benv.requireWithJadeify', function() {

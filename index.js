@@ -74,9 +74,10 @@ module.exports.require = function(filename, globalVarName) {
 module.exports.render = function(filename, data, callback) {
   if (!window) throw Error('You must run benv.setup first.');
   if (!filename.match('.jade')) throw Error('Could not identify template type');
+  var fullPath = path.resolve(path.dirname(module.parent.filename), filename);
   var html = require('jade').compile(
-    fs.readFileSync(filename),
-    { filename: filename }
+    fs.readFileSync(fullPath),
+    { filename: fullPath }
   )(data);
   jsdom.env(html, function(err, w) {
     var scriptEls = w.document.getElementsByTagName('script');
