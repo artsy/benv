@@ -15,7 +15,7 @@ $(function() {
 });
 ````
 
-Declare global dependencies, setup, and test in node.js.
+Setup, declare global dependencies, and test in node.js.
 
 **./test/client/app.js**
 ````javascript
