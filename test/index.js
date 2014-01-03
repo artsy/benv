@@ -16,10 +16,8 @@ describe('benv.setup', function() {
   });
 
   it('exposes passed globals', function(done) {
-    benv.globals = function() {
-     return { App: { Models: {} } };
-    };
     benv.setup(function(){
+      benv.expose({ App: { Models: {} } });
       should.exist(App.Models);
       done();
     });
@@ -97,12 +95,27 @@ describe('benv.render', function() {
       });
     });
   });
+
+  it('accepts local paths', function(done) {
+    benv.setup(function(){
+      var $ = benv.require('./libs/zepto.js', 'Zepto');
+      benv.render('../test/libs/template.jade', {}, function() {
+        $('body').html().should.not.include('script');
+        done();
+      });
+    });
+  });
 });
 
 describe('benv.requireWithJadeify', function() {
 
   it('rewires jadeify templates to work in node', function() {
     var html = benv.requireWithJadeify('./libs/jadeify.js', ['tmpl'])();
+    html.should.include('A foo walks into a bar');
+  });
+
+  it('works with double quotes', function() {
+    var html = benv.requireWithJadeify('./libs/jadeify-double-quotes.js', ['tmpl'])();
     html.should.include('A foo walks into a bar');
   });
 });

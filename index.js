@@ -5,10 +5,12 @@ var fs = require('fs');
 
 var domGlobals = [
   'navigator',
-  'document'
+  'document',
+  'location',
+  'getComputedStyle'
 ];
 
-module.exports.globals = function() { return {} };
+var globals = {};
 
 // Exposes a stubbed browser API and benv.globals into the node.js global namespace
 // so the current process can act like a browser environment.
@@ -24,13 +26,19 @@ module.exports.setup = function(callback) {
       domGlobals.forEach(function(varName) {
         global[varName] = w[varName];
       });
-      var globals = module.exports.globals();
-      for(var key in globals) {
-        global[key] = globals[key];
-      }
       if (callback) callback();
     }
   })
+}
+
+// Pass in common client-side dependencies and expose them globally.
+//
+// @param {Object} globals
+
+module.exports.expose = function(_globals) {
+  for(var key in _globals) {
+    global[key] = globals[key] = _globals[key];
+  }
 }
 
 // Deletes the stubbed browser API, benv.globals, and cleans things up so other
@@ -41,7 +49,7 @@ module.exports.teardown = function() {
   domGlobals.forEach(function(varName) {
     delete global[varName];
   });
-  for(var key in module.exports.globals) {
+  for(var key in globals) {
     delete global[key];
   }
 }
@@ -68,9 +76,10 @@ module.exports.require = function(filename, globalVarName) {
 module.exports.render = function(filename, data, callback) {
   if (!window) throw Error('You must run benv.setup first.');
   if (!filename.match('.jade')) throw Error('Could not identify template type');
+  var fullPath = path.resolve(path.dirname(module.parent.filename), filename);
   var html = require('jade').compile(
-    fs.readFileSync(filename),
-    { filename: filename }
+    fs.readFileSync(fullPath),
+    { filename: fullPath }
   )(data);
   jsdom.env(html, function(err, w) {
     var scriptEls = w.document.getElementsByTagName('script');
@@ -93,8 +102,11 @@ module.exports.requireWithJadeify = function(filename, varNames) {
   var mod = rewire(fullPath);
   var dir = path.dirname(mod.__get__('module').filename);
   varNames.forEach(function(varName) {
-    var tmplFilename = mod.__get__(varName).toString()
-      .match(/require\('(.*).jade'\)/)[1] + '.jade';
+    var section = mod.__get__(varName).toString()
+      .match(/require\('(.*).jade'\)/);
+    if(!section) section = mod.__get__(varName).toString()
+      .match(/require\("(.*).jade"\)/);
+    var tmplFilename = section[1] + '.jade'
     tmplFilename = path.resolve(dir, tmplFilename);
     mod.__set__(varName, require('jade').compile(
       fs.readFileSync(tmplFilename),

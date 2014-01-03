@@ -15,20 +15,19 @@ $(function() {
 });
 ````
 
-Declare global dependencies, setup, and test in node.js.
+Setup, declare global dependencies, and test in node.js.
 
 **./test/client/app.js**
 ````javascript
 var benv = require('benv');
 
-benv.globals = function() {
- return {
-   $: benv.require('../client/vendor/zepto.js', 'Zepto')
- };
-}
-
 beforeEach(function(done) {
-  benv.setup(done);
+  benv.setup(function() {
+    benv.expose({
+      $: benv.require('../client/vendor/zepto.js', 'Zepto')
+    });
+    done();
+  });
 });
 
 afterEach(function(done) {
@@ -46,33 +45,29 @@ describe('app.js', function() {
 
 ## Why
 
-Unit testing client side code in a browser is slow and hard to setup with [CI](http://en.wikipedia.org/wiki/Continuous_integration). Wouldn't it be nice if we could just run it along-side our server-side tests? Benv is a library of test helpers that makes it easy to require your client-side code in node.js and test it like any other node module.
+Unit testing client side code in a browser is slow and hard to setup with [CI](http://en.wikipedia.org/wiki/Continuous_integration). Wouldn't it be nice if we could just run it along-side our server-side tests? Benv is a library of test helpers that make it easy to require your client-side code in node.js and test it like any other node module.
 
 See [this blog post](http://artsy.github.io/blog/2013/06/14/writing-headless-backbone-tests-with-node-dot-js/) for details & inspiration.
 
 ## API
 
-### benv.globals
-
-Override with a function returning a hash of common globals your client-side code depends on beyond the normal DOM API.
-
-For instance you may have a [Backbone](https://github.com/jashkenas/backbone) app that has a global `App` namespace and uses jQuery.
-
-````javascript
-benv.globals = function() {
-  return {
-    _: require('underscore'),
-    jQuery: require('jquery'),
-    $: require('jquery'),
-    Backbone: require('backbone'),
-    App: {}
-  }
-}
-````
-
 ### benv.setup(callback)
 
-Exposes a stubbed browser API and benv.globals into the node.js global namespace so the current process can act like a browser environment.
+Exposes a stubbed browser API into the node.js global namespace so the current process can act like a browser environment. 
+
+### benv.expose(globals)
+
+Pass in a hash of common global client-side dependencies. For instance you may have a [Backbone](https://github.com/jashkenas/backbone) app that has a global `App` namespace and uses jQuery. This should be run after `benv.setup` b/c a lot of libraries assume the `window` object is already global.
+
+````javascript
+benv.expose({
+  _: require('underscore'),
+  jQuery: require('jquery'),
+  $: require('jquery'),
+  Backbone: require('backbone'),
+  App: {}
+})
+```
 
 ### benv.teardown()
 
@@ -104,7 +99,7 @@ benv.render('./views/artwork.jade', {
 
 Currently only supports [.jade](https://github.com/visionmedia/jade) templates, but please contribute others :)
 
-## benv.requireWithJadeify(filename, varNames)
+### benv.requireWithJadeify(filename, varNames)
 
 For those using [jadeify](https://github.com/OliverJAsh/node-jadeify2) when requiring client-side code that uses jadeify it will throw an error because `require('template.jade')` isn't valid node code. 
 
