@@ -6,7 +6,7 @@ afterEach(function() {
 });
 
 describe('benv.setup', function() {
-  
+
   it('exposes browser globals', function(done) {
     benv.setup(function(){
       should.exist(navigator.userAgent);
@@ -14,7 +14,7 @@ describe('benv.setup', function() {
       done();
     });
   });
-  
+
   it('exposes passed globals', function(done) {
     benv.globals = function() {
      return { App: { Models: {} } };
@@ -27,7 +27,7 @@ describe('benv.setup', function() {
 });
 
 describe('benv.teardown', function() {
-  
+
   it('removes globals', function(done) {
     benv.setup(function(){
       should.exist(navigator);
@@ -39,7 +39,7 @@ describe('benv.teardown', function() {
 });
 
 describe('benv.require', function() {
-  
+
   it('can require a non-commonjs module', function(done) {
     benv.setup(function(){
       var $ = benv.require('./libs/zepto.js', 'Zepto');
@@ -47,7 +47,7 @@ describe('benv.require', function() {
       done();
     });
   });
-  
+
   it('can require a non-commonjs module that doesnt even export to window', function(done) {
     benv.setup(function(){
       var nowin = benv.require('./libs/no-window.js', 'NoWindow');
@@ -55,11 +55,19 @@ describe('benv.require', function() {
       done();
     });
   });
+
+  it('can require from node_modules', function(done) {
+    benv.setup(function(){
+      var mocha = benv.require('mocha');
+      should.exist(mocha.reporters);
+      done();
+    });
+  });
 });
 
 
 describe('benv.render', function() {
-  
+
   it('renders jade templates', function(done) {
     benv.setup(function(){
       var $ = benv.require('./libs/zepto.js', 'Zepto');
@@ -69,7 +77,7 @@ describe('benv.render', function() {
       });
     });
   });
-  
+
   it('renders just the body from the template', function(done) {
     benv.setup(function(){
       var $ = benv.require('./libs/zepto.js', 'Zepto');
@@ -79,7 +87,7 @@ describe('benv.render', function() {
       });
     });
   });
-  
+
   it('removes script tags', function(done) {
     benv.setup(function(){
       var $ = benv.require('./libs/zepto.js', 'Zepto');
@@ -92,7 +100,7 @@ describe('benv.render', function() {
 });
 
 describe('benv.requireWithJadeify', function() {
-  
+
   it('rewires jadeify templates to work in node', function() {
     var html = benv.requireWithJadeify('./libs/jadeify.js', ['tmpl'])();
     html.should.include('A foo walks into a bar');
