@@ -103,7 +103,7 @@ Currently only supports [.jade](https://github.com/visionmedia/jade) templates, 
 
 For those using [jadeify](https://github.com/OliverJAsh/node-jadeify2) when requiring client-side code that uses jadeify it will throw an error because `require('template.jade')` isn't valid node code. 
 
-If you defer your jade requires to run time e.g. `var artworkTemplate = function() { require('foo.jade').apply(this, arguments); }` and use `benv.requireWithJadeify('../client/artwork.js', ['artworkTemplate'])` you can avoid this error and test the jadeified templates in node again.
+If you defer your jade requires to run time e.g. `var artworkTemplate = function() { return require('foo.jade').apply(this, arguments); }` and use `benv.requireWithJadeify('../client/artwork.js', ['artworkTemplate'])` you can avoid this error and test the jadeified templates in node again.
 
 ## Contributing
 
