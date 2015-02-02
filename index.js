@@ -1,4 +1,4 @@
-var jsdom = require('jsdom');
+var jsdom = require('jsdom-nogyp');
 var rewire = require('rewire');
 var path = require('path');
 var fs = require('fs');
