@@ -1,6 +1,6 @@
 {
   "name": "benv",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Stub a browser environment and test your client-side code in node.js.",
   "keywords": [
     "browser",
@@ -25,7 +25,7 @@
   	"test": "make test"
 	},
 	"dependencies": {
-	  "jsdom-nogyp": "*",
+	  "jsdom": "3.x",
 	  "rewire": "*"
 	},
   "devDependencies": {
