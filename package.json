@@ -1,7 +1,30 @@
 {
   "name": "benv",
-  "version": "0.1.8",
+  "version": "2.0.0",
   "description": "Stub a browser environment and test your client-side code in node.js.",
+  "main": "index.js",
+  "engines": {
+    "node": ">= 0.12.x"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "rewire": "^2.3.1",
+    "jsdom": "4.x"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.1",
+    "should": "^3.3.2",
+    "jade": "^1.9.2"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/craigspaeth/benv.git"
+  },
   "keywords": [
     "browser",
     "tests",
@@ -9,28 +32,10 @@
     "stub",
     "jsdom"
   ],
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/artsy/benv.git"
+  "author": "Craig Spaeth",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/craigspaeth/benv/issues"
   },
-  "author": {
-    "name": "Craig Spaeth",
-    "email": "craigspaeth@gmail.com",
-    "url": "http://craigspaeth.com"
-  },
-  "engines": {
-    "node": ">= 0.10.x"
-  },
-  "scripts": {
-  	"test": "make test"
-	},
-	"dependencies": {
-	  "jsdom": "3.x",
-	  "rewire": "*"
-	},
-  "devDependencies": {
-    "mocha": "*",
-    "should": "^3.0.0",
-    "jade": "*"
-  }
+  "homepage": "https://github.com/craigspaeth/benv"
 }
