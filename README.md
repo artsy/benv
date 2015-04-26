@@ -30,7 +30,7 @@ beforeEach(function(done) {
   });
 });
 
-afterEach(function(done) {
+afterEach(function() {
   benv.teardown();
 });
 
