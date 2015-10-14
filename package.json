@@ -1,17 +1,17 @@
 {
   "name": "benv",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "Stub a browser environment and test your client-side code in node.js.",
   "main": "index.js",
   "engines": {
-    "node": ">= 0.12.0"
+    "node": ">= 4.0"
   },
   "directories": {
     "test": "test"
   },
   "dependencies": {
     "rewire": "^2.3.1",
-    "jsdom": "3.x"
+    "jsdom": ">= 4.0"
   },
   "devDependencies": {
     "mocha": "^2.2.1",
