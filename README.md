@@ -51,9 +51,9 @@ See [this blog post](http://artsy.github.io/blog/2013/06/14/writing-headless-bac
 
 ## API
 
-### benv.setup(callback)
+### benv.setup(callback, options)
 
-Exposes a stubbed browser API into the node.js global namespace so the current process can act like a browser environment.
+Exposes a stubbed browser API into the node.js global namespace so the current process can act like a browser environment. The optional options are passed to jsdom.env. In particular, if your code makes ajax requests then you must pass `{url:'http://hostname:port'}` to avoid CORS errors.
 
 ### benv.expose(globals)
 

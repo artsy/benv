@@ -17,10 +17,12 @@ var globals = {};
 // so the current process can act like a browser environment.
 //
 // @param {Function} callback
+// @param {Object} options Further key/value pairs to be passed to the
+//        jsdom environment. This parameter is optional.
 
-module.exports.setup = function(callback) {
+module.exports.setup = function(callback, options) {
   if (typeof window != 'undefined') return callback && callback();
-  jsdom.env({
+  var env = {
     html: "<html><body></body></html>",
     done: function(errs, w) {
       global.window = w;
@@ -29,7 +31,13 @@ module.exports.setup = function(callback) {
       });
       if (callback) callback();
     }
-  })
+  };
+  if (options !== undefined) {
+    for(var key in options) {
+      env[key] = options[key];
+    }
+  }
+  jsdom.env(env);
 }
 
 // Pass in common client-side dependencies and expose them globally.
