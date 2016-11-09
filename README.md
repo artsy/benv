@@ -99,7 +99,7 @@ benv.render('./views/artwork.jade', {
 });
 ````
 
-Currently only supports [.jade](https://github.com/visionmedia/jade) templates, but please contribute others :)
+Currently only supports [.jade](https://github.com/pugjs/pug/tree/v1.x.x) and [.pug](https://github.com/pugjs/pug) templates, but please contribute others :)
 
 ### benv.requireWithJadeify(filename, varNames)
 
