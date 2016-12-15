@@ -46,6 +46,7 @@ module.exports.setup = function(callback, options) {
 
 module.exports.expose = function(_globals) {
   for(var key in _globals) {
+    window[key] = globals[key] = _globals[key];
     global[key] = globals[key] = _globals[key];
   }
 }
