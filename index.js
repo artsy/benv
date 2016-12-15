@@ -87,12 +87,16 @@ module.exports.require = function(filename, globalVarName) {
 
 module.exports.render = function(filename, data, callback) {
   if (!window) throw Error('You must run benv.setup first.');
-  if (!filename.match('.jade')) throw Error('Could not identify template type');
+  if (!filename.match('.jade') && !filename.match('.pug')) throw Error('Could not identify template type');
   var fullPath = path.resolve(path.dirname(module.parent.filename), filename);
-  var html = require('jade').compile(
+
+  var engine = filename.match('.jade') ? require('jade') : require('pug');
+
+  var html = engine.compile(
     fs.readFileSync(fullPath),
     { filename: fullPath }
   )(data);
+
   jsdom.env(html, function(err, w) {
     var scriptEls = w.document.getElementsByTagName('script');
     Array.prototype.forEach.call(scriptEls, function(el) {

@@ -120,6 +120,16 @@ describe('benv.render', function() {
     });
   });
 
+  it('renders pug templates', function(done) {
+    benv.setup(function(){
+      var $ = benv.require('./libs/zepto.js', 'Zepto');
+      benv.render(__dirname + '/libs/template.pug', {}, function() {
+        $('body').html().should.include('Hello World')
+        done();
+      });
+    });
+  });
+
   it('renders just the body from the template', function(done) {
     benv.setup(function(){
       var $ = benv.require('./libs/zepto.js', 'Zepto');
