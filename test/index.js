@@ -11,11 +11,22 @@ describe('benv.setup', function() {
       done();
     });
   });
+});
+
+describe('benv.expose', function() {
 
   it('exposes passed globals', function(done) {
-    benv.setup(function(){
+    benv.setup(function() {
       benv.expose({ App: { Models: {} } });
       should.exist(App.Models);
+      done();
+    });
+  });
+
+  it('exposes passed globals on the window', function(done) {
+    benv.setup(function() {
+      benv.expose({ App: { Models: {} } });
+      should.exist(window.App.Models);
       done();
     });
   });
