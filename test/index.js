@@ -184,3 +184,16 @@ describe('benv.requireWithJadeify', function() {
     html.should.include('A foo walks into a bar');
   });
 });
+
+describe('benv.requireWithPugify', function() {
+
+  it('rewires pugify templates to work in node', function() {
+    var html = benv.requireWithPugify('./libs/pugify.js', ['tmpl'])();
+    html.should.include('A foo walks into a bar');
+  });
+
+  it('works with double quotes', function() {
+    var html = benv.requireWithPugify('./libs/pugify-double-quotes.js', ['tmpl'])();
+    html.should.include('A foo walks into a bar');
+  });
+});

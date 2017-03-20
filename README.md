@@ -107,6 +107,12 @@ For those using [jadeify](https://github.com/OliverJAsh/node-jadeify2) when requ
 
 If you defer your jade requires to run time e.g. `var artworkTemplate = function() { return require('foo.jade').apply(this, arguments); }` and use `benv.requireWithJadeify('../client/artwork.js', ['artworkTemplate'])` you can avoid this error and test the jadeified templates in node again.
 
+### benv.requireWithPugify(filename, varNames)
+
+For those using [pugify](https://github.com/sidorares/pugify) when requiring client-side code that uses pugify it will throw an error because `require('template.pug')` isn't valid node code.
+
+If you defer your pug requires to run time e.g. `var artworkTemplate = function() { return require('foo.pug').apply(this, arguments); }` and use `benv.requireWithPugify('../client/artwork.js', ['artworkTemplate'])` you can avoid this error and test the pugified templates in node again.
+
 ## Contributing
 
 Please fork the project and submit a pull request with tests. Install node modules `npm install` and run tests with `npm test`.

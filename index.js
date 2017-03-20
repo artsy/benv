@@ -132,3 +132,27 @@ module.exports.requireWithJadeify = function(filename, varNames) {
   });
   return mod;
 }
+
+// Rewires pugify templates to work in node again.
+//
+// @param {String} filename
+// @param {Array} varNames Strings of template variable names
+
+module.exports.requireWithPugify = function(filename, varNames) {
+  var fullPath = path.resolve(path.dirname(module.parent.filename), filename);
+  var mod = rewire(fullPath);
+  var dir = path.dirname(mod.__get__('module').filename);
+  varNames.forEach(function(varName) {
+    var section = mod.__get__(varName).toString()
+      .match(/require\('(.*).pug'\)/);
+    if(!section) section = mod.__get__(varName).toString()
+      .match(/require\("(.*).pug"\)/);
+    var tmplFilename = section[1] + '.pug'
+    tmplFilename = path.resolve(dir, tmplFilename);
+    mod.__set__(varName, require('pug').compile(
+      fs.readFileSync(tmplFilename),
+      { filename: tmplFilename }
+    ));
+  });
+  return mod;
+}
