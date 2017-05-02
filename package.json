@@ -1,6 +1,6 @@
 {
   "name": "benv",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "Stub a browser environment and test your client-side code in node.js.",
   "main": "index.js",
   "engines": {
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "rewire": "^2.3.1",
-    "jsdom": ">= 4.0"
+    "jsdom": ">= 10.0"
   },
   "devDependencies": {
     "jade": "^1.9.2",
